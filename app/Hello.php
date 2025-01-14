@@ -4,7 +4,7 @@ namespace App;
 
 class Hello
 {
-    public function getGreeting()
+    public function getGreeting(): string
     {
         return 'Hello World!';
     }

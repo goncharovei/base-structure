@@ -12,14 +12,14 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class HelloCommand extends Command
 {
-    protected static $defaultName = 'app:hello';
+    protected static string $defaultName = 'app:hello';
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Confirms Commands can be called');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $output->writeln('Hello World!');
 

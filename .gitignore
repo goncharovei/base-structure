@@ -28,6 +28,7 @@ Homestead.json
 .env.production
 .phpactor.json
 auth.json
+composer.lock
 
 /.fleet
 /.idea
