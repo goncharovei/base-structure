@@ -3,7 +3,7 @@
     "name": "goncharovei/base-structure",
     "type": "project",
     "description": "Simple structure of PHP project",
-    "keywords": ["PHP", "base", "project", "skeleton"],
+    "keywords": ["PHP", "base", "project", "skeleton", "console"],
     "license": "MIT",
     "authors": [
         {
@@ -13,7 +13,9 @@
     "require": {
         "php": "^8.2",
         "symfony/console": "^7.0.3",
-        "monolog/monolog": "^3.8"
+        "monolog/monolog": "^3.8",
+        "vlucas/phpdotenv": "^5.6",
+        "nesbot/carbon": "^3.8"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.0.1",
