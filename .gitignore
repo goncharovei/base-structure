@@ -23,6 +23,7 @@ Homestead.json
 .phpunit.result.cache
 
 /public/build
+/public/tests
 /storage/pail
 .env.backup
 .env.production
