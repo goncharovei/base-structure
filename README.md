@@ -3,6 +3,16 @@ Simple structure of PHP project
 
 ## How to use 
 
+### Settings
+
+Environment variables and configurations are supported.
+Environment variables are in the ".env" file.
+Configuration is in the "config" folder.
+
+### Log
+
+Available via the "logger" helper function.
+
 ### Tests
 Execute command 
 
