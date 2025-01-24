@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Foundation\Configuration\Env;
 use Illuminate\Container\Container;
 
@@ -9,9 +10,10 @@ if (! function_exists('app')) {
      *
      * @template TClass
      *
-     * @param  string|class-string<TClass>|null  $abstract
-     * @param  array  $parameters
-     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? \Illuminate\Foundation\Application : mixed))
+     * @param string|class-string<TClass>|null $abstract
+     * @param array $parameters
+     * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? Foundation\Application : mixed))
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -100,6 +102,7 @@ if (! function_exists('env')) {
         return Env::get($key, $default);
     }
 }
+
 if (! function_exists('join_paths')) {
     function join_paths($basePath, ...$paths)
     {
@@ -114,6 +117,7 @@ if (! function_exists('join_paths')) {
         return $basePath . implode('', $paths);
     }
 }
+
 if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
@@ -127,7 +131,7 @@ if (! function_exists('config_path')) {
     }
 }
 
-if (! function_exists('info')) {
+if (! function_exists('error')) {
     /**
      * Write some information to the log.
      *
@@ -135,9 +139,9 @@ if (! function_exists('info')) {
      * @param  array  $context
      * @return void
      */
-    function info($message, $context = [])
+    function error($message, $context = [])
     {
-        app('log')->info($message, $context);
+        app('log')->error($message, $context);
     }
 }
 
@@ -147,7 +151,7 @@ if (! function_exists('logger')) {
      *
      * @param  string|null  $message
      * @param  array  $context
-     * @return ($message is null ? \Illuminate\Log\LogManager : null)
+     * @return ($message is null ? Psr\Log\LoggerInterface : null)
      */
     function logger($message = null, array $context = [])
     {
@@ -164,11 +168,10 @@ if (! function_exists('now')) {
      * Create a new Carbon instance for the current time.
      *
      * @param  \DateTimeZone|string|null  $tz
-     * @return \Illuminate\Support\Carbon
      */
-    function now($tz = null)
+    function now($tz = null): Carbon
     {
-        return Date::now($tz);
+        return Carbon::now($tz);
     }
 }
 
@@ -182,55 +185,6 @@ if (! function_exists('public_path')) {
     function public_path($path = '')
     {
         return app()->publicPath($path);
-    }
-}
-
-if (! function_exists('report')) {
-    /**
-     * Report an exception.
-     *
-     * @param  \Throwable|string  $exception
-     * @return void
-     */
-    function report($exception)
-    {
-        if (is_string($exception)) {
-            $exception = new Exception($exception);
-        }
-
-        app(ExceptionHandler::class)->report($exception);
-    }
-}
-
-if (! function_exists('report_if')) {
-    /**
-     * Report an exception if the given condition is true.
-     *
-     * @param  bool  $boolean
-     * @param  \Throwable|string  $exception
-     * @return void
-     */
-    function report_if($boolean, $exception)
-    {
-        if ($boolean) {
-            report($exception);
-        }
-    }
-}
-
-if (! function_exists('report_unless')) {
-    /**
-     * Report an exception unless the given condition is true.
-     *
-     * @param  bool  $boolean
-     * @param  \Throwable|string  $exception
-     * @return void
-     */
-    function report_unless($boolean, $exception)
-    {
-        if (! $boolean) {
-            report($exception);
-        }
     }
 }
 
@@ -252,7 +206,7 @@ if (! function_exists('resolve')) {
 
 if (! function_exists('resource_path')) {
     /**
-     * Get the path to the resources folder.
+     * Get the path to the resources' folder.
      *
      * @param  string  $path
      * @return string
@@ -281,10 +235,9 @@ if (! function_exists('today')) {
      * Create a new Carbon instance for the current date.
      *
      * @param  \DateTimeZone|string|null  $tz
-     * @return \Illuminate\Support\Carbon
      */
-    function today($tz = null)
+    function today($tz = null): Carbon
     {
-        return Date::today($tz);
+        return Carbon::today($tz);
     }
 }
