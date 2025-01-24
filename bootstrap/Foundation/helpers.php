@@ -1,73 +1,7 @@
 <?php
 
+use Foundation\Configuration\Env;
 use Illuminate\Container\Container;
-
-if (! function_exists('abort')) {
-    /**
-     * Throw an HttpException with the given data.
-     *
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
-     * @param  string  $message
-     * @param  array  $headers
-     * @return never
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     * @throws \Illuminate\Http\Exceptions\HttpResponseException
-     */
-    function abort($code, $message = '', array $headers = [])
-    {
-        if ($code instanceof Response) {
-            throw new HttpResponseException($code);
-        } elseif ($code instanceof Responsable) {
-            throw new HttpResponseException($code->toResponse(request()));
-        }
-
-        app()->abort($code, $message, $headers);
-    }
-}
-
-if (! function_exists('abort_if')) {
-    /**
-     * Throw an HttpException with the given data if the given condition is true.
-     *
-     * @param  bool  $boolean
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
-     * @param  string  $message
-     * @param  array  $headers
-     * @return void
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    function abort_if($boolean, $code, $message = '', array $headers = [])
-    {
-        if ($boolean) {
-            abort($code, $message, $headers);
-        }
-    }
-}
-
-if (! function_exists('abort_unless')) {
-    /**
-     * Throw an HttpException with the given data unless the given condition is true.
-     *
-     * @param  bool  $boolean
-     * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
-     * @param  string  $message
-     * @param  array  $headers
-     * @return void
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    function abort_unless($boolean, $code, $message = '', array $headers = [])
-    {
-        if (! $boolean) {
-            abort($code, $message, $headers);
-        }
-    }
-}
 
 if (! function_exists('app')) {
     /**
@@ -116,21 +50,6 @@ if (! function_exists('asset')) {
     }
 }
 
-if (! function_exists('back')) {
-    /**
-     * Create a new redirect response to the previous location.
-     *
-     * @param  int  $status
-     * @param  array  $headers
-     * @param  mixed  $fallback
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    function back($status = 302, $headers = [], $fallback = false)
-    {
-        return app('redirect')->back($status, $headers, $fallback);
-    }
-}
-
 if (! function_exists('base_path')) {
     /**
      * Get the path to the base of the install.
@@ -168,6 +87,33 @@ if (! function_exists('config')) {
     }
 }
 
+if (! function_exists('env')) {
+    /**
+     * Gets the value of an environment variable.
+     *
+     * @param  string  $key
+     * @param  mixed  $default
+     * @return mixed
+     */
+    function env($key, $default = null)
+    {
+        return Env::get($key, $default);
+    }
+}
+if (! function_exists('join_paths')) {
+    function join_paths($basePath, ...$paths)
+    {
+        foreach ($paths as $index => $path) {
+            if (empty($path) && $path !== '0') {
+                unset($paths[$index]);
+            } else {
+                $paths[$index] = DIRECTORY_SEPARATOR . ltrim($path, DIRECTORY_SEPARATOR);
+            }
+        }
+
+        return $basePath . implode('', $paths);
+    }
+}
 if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
@@ -178,39 +124,6 @@ if (! function_exists('config_path')) {
     function config_path($path = '')
     {
         return app()->configPath($path);
-    }
-}
-
-if (! function_exists('csrf_token')) {
-    /**
-     * Get the CSRF token value.
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    function csrf_token()
-    {
-        $session = app('session');
-
-        if (isset($session)) {
-            return $session->token();
-        }
-
-        throw new RuntimeException('Application session store not set.');
-    }
-}
-
-if (! function_exists('database_path')) {
-    /**
-     * Get the database path.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    function database_path($path = '')
-    {
-        return app()->databasePath($path);
     }
 }
 
@@ -269,26 +182,6 @@ if (! function_exists('public_path')) {
     function public_path($path = '')
     {
         return app()->publicPath($path);
-    }
-}
-
-if (! function_exists('redirect')) {
-    /**
-     * Get an instance of the redirector.
-     *
-     * @param  string|null  $to
-     * @param  int  $status
-     * @param  array  $headers
-     * @param  bool|null  $secure
-     * @return ($to is null ? \Illuminate\Routing\Redirector : \Illuminate\Http\RedirectResponse)
-     */
-    function redirect($to = null, $status = 302, $headers = [], $secure = null)
-    {
-        if (is_null($to)) {
-            return app('redirect');
-        }
-
-        return app('redirect')->to($to, $status, $headers, $secure);
     }
 }
 
