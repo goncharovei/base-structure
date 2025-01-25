@@ -6,6 +6,7 @@ Simple structure of PHP project
 ### Settings
 
 Environment variables and configurations are supported.
+
 Environment variables are in the ".env" file.
 Configuration is in the "config" folder.
 
@@ -13,16 +14,18 @@ Configuration is in the "config" folder.
 
 Available via the "logger" helper function.
 
+See details here [Using Monolog](https://github.com/Seldaek/monolog/blob/main/doc/01-usage.md).
+
 ### Tests
 Execute command 
 
-php vendor/bin/phpunit --testsuite Unit --testdox --testdox-summary
+`php vendor/bin/phpunit --testsuite Unit --testdox --testdox-summary`
 
 See details here [The Command-Line Test Runner](https://docs.phpunit.de/en/11.5/textui.html).
 
 ### PHPStan
 Execute command
 
-vendor/bin/phpstan analyse app
+`vendor/bin/phpstan analyse app`
 
 See details here [Command Line Usage](https://phpstan.org/user-guide/command-line-usage).
