@@ -13,7 +13,7 @@ Configuration is in the "config" folder.
 ### Mail Sender
 
 Available via the "mailer" helper function.<br>
-See details here [Examples](https://github.com/PHPMailer/PHPMailer/tree/master/examples).
+See details here [Using PHPMailer](https://github.com/PHPMailer/PHPMailer/tree/master/examples).
 
 ### Log
 
