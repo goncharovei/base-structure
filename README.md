@@ -10,6 +10,12 @@ Environment variables and configurations are supported.
 Environment variables are in the ".env" file.
 Configuration is in the "config" folder.
 
+### Mail Sender
+
+Available via the "mailer" helper function.
+
+See details here [Examples](https://github.com/PHPMailer/PHPMailer/tree/master/examples).
+
 ### Log
 
 Available via the "logger" helper function.
