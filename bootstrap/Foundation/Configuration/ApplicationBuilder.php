@@ -6,6 +6,7 @@ use Foundation\Application;
 use Foundation\Configuration\Load\LoadConfig;
 use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Log\Logger;
+use Foundation\Mail\Mailer;
 use Illuminate\Contracts\Container\Container;
 use Psr\Log\LoggerInterface;
 
@@ -29,6 +30,13 @@ class ApplicationBuilder
     public function createLogger(): static
     {
         $this->app->instance('log', call_user_func(new Logger()));
+
+        return $this;
+    }
+
+    public function createMailer(): static
+    {
+        $this->app->instance('mailer', call_user_func(new Mailer()));
 
         return $this;
     }

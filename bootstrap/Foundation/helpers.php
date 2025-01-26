@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Foundation\Configuration\Env;
 use Illuminate\Container\Container;
+use PHPMailer\PHPMailer\PHPMailer;
 
 if (! function_exists('app')) {
     /**
@@ -160,6 +161,18 @@ if (! function_exists('logger')) {
         }
 
         return app('log')->debug($message, $context);
+    }
+}
+
+if (! function_exists('mailer')) {
+    /**
+     * Send a message by email
+     *
+     * @return PHPMailer
+     */
+    function mailer()
+    {
+        return app('mailer');
     }
 }
 
