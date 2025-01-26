@@ -19,10 +19,10 @@
         "guzzlehttp/guzzle": "^7.9",
         "illuminate/collections": "^11.38",
         "illuminate/container": "^11.38",
-        "cycle/database": "^2.11",
         "symfony/finder": "^7.2",
         "illuminate/config": "^11.39",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "illuminate/database": "^11.40"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.0.1",
