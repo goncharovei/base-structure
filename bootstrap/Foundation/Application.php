@@ -127,7 +127,8 @@ class Application extends Container
         return (new Configuration\ApplicationBuilder(new static($basePath)))
             ->loadSettings()
             ->createLogger()
-            ->createMailer();
+            ->createMailer()
+            ->createQueryBuilder();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Foundation\Configuration;
 use Foundation\Application;
 use Foundation\Configuration\Load\LoadConfig;
 use Foundation\Configuration\Load\LoadEnvironmentVariables;
+use Foundation\Database\QueryBuilder;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
 use Illuminate\Contracts\Container\Container;
@@ -37,6 +38,14 @@ class ApplicationBuilder
     public function createMailer(): static
     {
         $this->app->instance('mailer', call_user_func(new Mailer()));
+
+        return $this;
+    }
+
+    public function createQueryBuilder(): static
+    {
+        $queryBuilder = new QueryBuilder();
+        $queryBuilder()->setAsGlobal();
 
         return $this;
     }

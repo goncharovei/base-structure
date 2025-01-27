@@ -10,6 +10,11 @@ Environment variables and configurations are supported.
 Environment variables are in the ".env" file.<br>
 Configuration is in the "config" folder.
 
+### Query Builder
+
+It is accessible globally through a static DB Instance.<br>
+See details here [Using Illuminate Database](https://laravel.com/docs/11.x/queries).
+
 ### Mail Sender
 
 Available via the "mailer" helper function.<br>
