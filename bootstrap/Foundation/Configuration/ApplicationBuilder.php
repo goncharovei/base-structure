@@ -8,8 +8,6 @@ use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Database\QueryBuilder;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
-use Illuminate\Contracts\Container\Container;
-use Psr\Log\LoggerInterface;
 
 class ApplicationBuilder
 {
@@ -50,4 +48,8 @@ class ApplicationBuilder
         return $this;
     }
 
+    public function getApplication(): Application
+    {
+        return $this->app;
+    }
 }
