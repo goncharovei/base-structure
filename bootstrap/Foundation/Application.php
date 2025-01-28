@@ -3,6 +3,7 @@
 namespace Foundation;
 
 use Composer\Autoload\ClassLoader;
+use Foundation\Configuration\ApplicationBuilder;
 use Foundation\Configuration\Env;
 use Illuminate\Container\Container;
 
@@ -115,16 +116,16 @@ class Application extends Container
      *  Begin configuring a new Package application instance.
      *
      * @param string|null $basePath
-     * @return Configuration\ApplicationBuilder
+     * @return ApplicationBuilder
      */
-    public static function configure(?string $basePath = null): Configuration\ApplicationBuilder
+    public static function configure(?string $basePath = null): ApplicationBuilder
     {
         $basePath = match (true) {
             is_string($basePath) => $basePath,
             default => static::inferBasePath(),
         };
 
-        return (new Configuration\ApplicationBuilder(new static($basePath)))
+        return (new ApplicationBuilder(new static($basePath)))
             ->loadSettings()
             ->createLogger()
             ->createMailer()
@@ -273,6 +274,11 @@ class Application extends Container
         return $this->joinPaths($this->basePath('resources'), $path);
     }
 
+    public function commandDefaultPath(): string
+    {
+        return $this->path('Command');
+    }
+
     /**
      * Join the given paths together.
      *
@@ -358,24 +364,6 @@ class Application extends Container
         }
 
         return $this->isRunningInConsole;
-    }
-
-    /**
-     * Determine if the application is running any of the given console commands.
-     *
-     * @param  string|array  ...$commands
-     * @return bool
-     */
-    public function runningConsoleCommand(...$commands): bool
-    {
-        if (! $this->runningInConsole()) {
-            return false;
-        }
-
-        return in_array(
-            $_SERVER['argv'][1] ?? null,
-            is_array($commands[0]) ? $commands[0] : $commands
-        );
     }
 
     /**

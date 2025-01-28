@@ -6,6 +6,8 @@ use Foundation\Application;
 use Foundation\Configuration\Load\LoadConfig;
 use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Database\QueryBuilder;
+use Foundation\Kernels\Kernel;
+use Foundation\Kernels\Console\Kernel as ConsoleKernel;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
 
@@ -14,8 +16,14 @@ class ApplicationBuilder
     /**
      * Create a new application builder instance.
      */
-    public function __construct(protected Application $app)
+    public function __construct(private Application $app)
     {
+    }
+
+    public function createKernel(): Kernel
+    {
+        // todo: $this->app->runningInConsole()
+        return $this->app->make(ConsoleKernel::class, ['app' => $this->app]);
     }
 
     public function loadSettings(): static
@@ -48,8 +56,4 @@ class ApplicationBuilder
         return $this;
     }
 
-    public function getApplication(): Application
-    {
-        return $this->app;
-    }
 }

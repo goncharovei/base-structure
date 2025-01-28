@@ -3,6 +3,8 @@
 namespace Foundation\Kernels\Console;
 
 use Foundation\Application;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Symfony\Component\Console\Application as ConsoleApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use ReflectionClass;
@@ -10,22 +12,45 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
-class Kernel
+final class Kernel implements KernelConsole
 {
-    protected array $commandPaths = [];
+    private array $commandPaths = [];
 
-    public function __construct(protected Application $app)
+    public function __construct(private readonly Application $app)
     {
+        $this->addCommandPaths([$app->commandDefaultPath()]);
     }
 
-    public function addCommandPaths(array $paths): static
+    /**
+     * @throws BindingResolutionException
+     */
+    public function launchConsole(): int
+    {
+        $console = $this->app->make(ConsoleApplication::class);
+        $this->addCommands($console);
+
+        return $console->run();
+    }
+
+    public function addCommandPaths(array $paths): KernelConsole
     {
         $this->commandPaths = array_values(array_unique(array_merge($this->commandPaths, $paths)));
 
         return $this;
     }
 
-    protected function discoverCommands(): array
+    /**
+     * @throws BindingResolutionException
+     */
+    private function addCommands(ConsoleApplication $console): void
+    {
+        foreach ($this->discoverCommands() as $commandClass)
+        {
+            $console->add($this->app->make($commandClass));
+        }
+    }
+
+    private function discoverCommands(): array
     {
         $commands = [];
 
@@ -37,7 +62,7 @@ class Kernel
         return array_unique($commands);
     }
 
-    protected function load($paths): array
+    private function load($paths): array
     {
         $commands = [];
 
@@ -65,7 +90,7 @@ class Kernel
         return $commands;
     }
 
-    protected function commandClassFromFile(SplFileInfo $file, string $namespace): string
+    private function commandClassFromFile(SplFileInfo $file, string $namespace): string
     {
         return $namespace.str_replace(
                 ['/', '.php'],
