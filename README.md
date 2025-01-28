@@ -3,6 +3,13 @@ Simple structure of PHP project
 
 ## How to use 
 
+### Console
+
+Execute command<br>
+`php console`
+
+See details here [The Console Symfony](https://symfony.com/doc/current/components/console.html#learn-more).
+
 ### Settings
 
 Environment variables and configurations are supported.
