@@ -8,7 +8,7 @@ use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Database\QueryBuilder;
 use Foundation\Kernels\Kernel;
 use Foundation\Kernels\Console\Kernel as ConsoleKernel;
-use Foundation\Kernels\Web\Kernel as WebKernel;
+use Foundation\Kernels\Http\Kernel as WebKernel;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
 

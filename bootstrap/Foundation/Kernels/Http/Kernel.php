@@ -1,10 +1,10 @@
 <?php
 
-namespace Foundation\Kernels\Web;
+namespace Foundation\Kernels\Http;
 
 use Foundation\Application;
 
-final class Kernel implements KernelWeb
+final class Kernel implements KernelHttp
 {
     public function __construct(private readonly Application $app)
     {

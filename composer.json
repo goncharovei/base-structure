@@ -3,7 +3,7 @@
     "name": "goncharovei/base-structure",
     "type": "project",
     "description": "Simple structure of PHP project",
-    "keywords": ["PHP", "base", "project", "skeleton", "console"],
+    "keywords": ["PHP", "base", "project", "skeleton", "console", "MVC"],
     "license": "MIT",
     "authors": [
         {
