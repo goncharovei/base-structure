@@ -8,7 +8,7 @@ use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Database\QueryBuilder;
 use Foundation\Kernels\Kernel;
 use Foundation\Kernels\Console\Kernel as ConsoleKernel;
-use Foundation\Kernels\Http\Kernel as WebKernel;
+use Foundation\Kernels\Http\Kernel as HttpKernel;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
 
@@ -24,7 +24,7 @@ class ApplicationBuilder
     public function createKernel(): Kernel
     {
         $kernel = $this->app->runningInConsole() ?
-            ConsoleKernel::class : WebKernel::class;
+            ConsoleKernel::class : HttpKernel::class;
 
         return $this->app->make($kernel, ['app' => $this->app]);
     }
