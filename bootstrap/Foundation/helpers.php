@@ -146,6 +146,17 @@ if (! function_exists('error')) {
     }
 }
 
+if (! function_exists('router')) {
+
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    function router()
+    {
+        return app('router');
+    }
+}
+
 if (! function_exists('logger')) {
     /**
      * Log a debug message to the logs.
