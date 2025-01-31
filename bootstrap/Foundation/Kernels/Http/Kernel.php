@@ -5,6 +5,7 @@ namespace Foundation\Kernels\Http;
 use Foundation\Application;
 use GuzzleHttp\Psr7\ServerRequest;
 use League\Route\Router;
+use Symfony\Component\Finder\Finder;
 
 final class Kernel implements KernelHttp
 {
@@ -18,8 +19,18 @@ final class Kernel implements KernelHttp
     {
         $request = ServerRequest::fromGlobals();
 
-        //Router::map('GET', '/', [HomeController::class, 'index'])->middleware(new AppMiddleware());
+        //
         echo 'Hello World!';
+    }
+
+    public function loadRoutes(string $path): Kernel
+    {
+        foreach (Finder::create()->files()->name('*.php')->in($path) as $file)
+        {
+            require_once $file->getRealPath();
+        }
+
+        return $this;
     }
 
     private function bindTemplateEngine(): void
