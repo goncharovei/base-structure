@@ -157,6 +157,29 @@ if (! function_exists('router')) {
     }
 }
 
+if (! function_exists('request')) {
+
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    function request()
+    {
+        return app('request');
+    }
+}
+
+if (! function_exists('response')) {
+
+    /**
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     */
+    function response($content = null, $status = 200, array $headers = [], string $reason = '')
+    {
+        return app('response')->setContent($content)
+            ->withStatus($status, $reason)->setHeaders($headers);
+    }
+}
+
 if (! function_exists('logger')) {
     /**
      * Log a debug message to the logs.

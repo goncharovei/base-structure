@@ -3,7 +3,8 @@
 namespace Foundation\Kernels\Http;
 
 use Foundation\Application;
-use GuzzleHttp\Psr7\ServerRequest;
+use Illuminate\Contracts\Container\BindingResolutionException;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Router;
 use Symfony\Component\Finder\Finder;
 
@@ -12,15 +13,18 @@ final class Kernel implements KernelHttp
     public function __construct(private readonly Application $app)
     {
         $this->bindTemplateEngine();
+        $this->registerRequest();
         $this->registerRouter();
+        $this->registerResponse();
     }
 
+    /**
+     * @throws BindingResolutionException
+     */
     public function launchWeb(): void
     {
-        $request = ServerRequest::fromGlobals();
-
-        //
-        echo 'Hello World!';
+        $response = router()->dispatch(request());
+        (new SapiEmitter())->emit($response);
     }
 
     public function loadRoutes(string $path): Kernel
@@ -43,5 +47,15 @@ final class Kernel implements KernelHttp
     private function registerRouter(): void
     {
         $this->app->instance('router', new Router());
+    }
+
+    private function registerRequest(): void
+    {
+        $this->app->instance('request', Request::fromGlobals());
+    }
+
+    private function registerResponse(): void
+    {
+        $this->app->instance('response', new Response());
     }
 }
