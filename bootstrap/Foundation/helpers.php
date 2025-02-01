@@ -58,6 +58,14 @@ if (! function_exists('asset')) {
     }
 }
 
+if (! function_exists('route')) {
+
+    function route(string $name, array $params = [])
+    {
+        return app('url')->route($name, $params);
+    }
+}
+
 if (! function_exists('base_path')) {
     /**
      * Get the path to the base of the install.

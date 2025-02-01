@@ -2,6 +2,8 @@
 
 namespace Foundation\Url;
 
+use Foundation\Kernels\Http\Router;
+
 class UrlGenerator
 {
     private string $baseURL;
@@ -19,6 +21,11 @@ class UrlGenerator
     public function asset(string $path, array $params = []): string
     {
         return $this->generate('asset' . '/' . ltrim($path, '/'), $params);
+    }
+
+    public function route(string $name, array $params = []): string
+    {
+        return $this->generate(Router::getNamedRoute($name)->getPath($params));
     }
 
     public function generate(string $path = '', array $params = []): string

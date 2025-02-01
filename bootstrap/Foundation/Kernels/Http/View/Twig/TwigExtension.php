@@ -12,6 +12,7 @@ class TwigExtension extends AbstractExtension
         return [
             new TwigFunction('url', [$this, 'url']),
             new TwigFunction('asset', [$this, 'asset']),
+            new TwigFunction('route', [$this, 'route']),
         ];
     }
 
@@ -23,5 +24,10 @@ class TwigExtension extends AbstractExtension
     public function asset(string $path, array $params = []): string
     {
         return asset($path, $params);
+    }
+
+    public function route(string $name, array $params = []): string
+    {
+        return route($name, $params);
     }
 }
