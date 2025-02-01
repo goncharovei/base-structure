@@ -11,6 +11,7 @@ use Foundation\Kernels\Console\Kernel as ConsoleKernel;
 use Foundation\Kernels\Http\Kernel as HttpKernel;
 use Foundation\Log\Logger;
 use Foundation\Mail\Mailer;
+use Foundation\Url\UrlGenerator;
 
 class ApplicationBuilder
 {
@@ -55,6 +56,13 @@ class ApplicationBuilder
     {
         $queryBuilder = new QueryBuilder();
         $queryBuilder()->setAsGlobal();
+
+        return $this;
+    }
+
+    public function createUrlGenerator(): static
+    {
+        $this->app->instance('url', new UrlGenerator(config('app.url')));
 
         return $this;
     }

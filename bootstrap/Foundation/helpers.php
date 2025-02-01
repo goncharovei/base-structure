@@ -42,18 +42,19 @@ if (! function_exists('app_path')) {
     }
 }
 
-if (! function_exists('asset')) {
-    /**
-     * Generate an asset path for the application.
-     *
-     * @param  string  $path
-     * @param  bool|null  $secure
-     * @return string
-     */
-    function asset($path, $secure = null)
+if (! function_exists('url')) {
+
+    function url(string $path = '', array $params = [])
     {
-        //todo
-        return app('url')->asset($path, $secure);
+        return app('url')->generate($path, $params);
+    }
+}
+
+if (! function_exists('asset')) {
+
+    function asset(string $path, array $params = [])
+    {
+        return app('url')->asset($path, $params);
     }
 }
 
