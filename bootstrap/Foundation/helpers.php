@@ -2,7 +2,10 @@
 
 use Carbon\Carbon;
 use Foundation\Configuration\Env;
+use Foundation\Kernels\Http\Response;
+use Foundation\Kernels\Http\View;
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPMailer\PHPMailer\PHPMailer;
 
 if (! function_exists('app')) {
@@ -14,7 +17,7 @@ if (! function_exists('app')) {
      * @param string|class-string<TClass>|null $abstract
      * @param array $parameters
      * @return ($abstract is class-string<TClass> ? TClass : ($abstract is null ? Foundation\Application : mixed))
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     function app($abstract = null, array $parameters = [])
     {
@@ -49,6 +52,7 @@ if (! function_exists('asset')) {
      */
     function asset($path, $secure = null)
     {
+        //todo
         return app('url')->asset($path, $secure);
     }
 }
@@ -149,7 +153,7 @@ if (! function_exists('error')) {
 if (! function_exists('router')) {
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     function router()
     {
@@ -160,7 +164,7 @@ if (! function_exists('router')) {
 if (! function_exists('request')) {
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     function request()
     {
@@ -171,12 +175,28 @@ if (! function_exists('request')) {
 if (! function_exists('response')) {
 
     /**
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     function response($content = null, $status = 200, array $headers = [], string $reason = '')
     {
         return app('response')->setContent($content)
             ->withStatus($status, $reason)->setHeaders($headers);
+    }
+}
+
+if (! function_exists('view')) {
+
+    /**
+     * @throws BindingResolutionException
+     */
+    function view($view = null, $data = []): Response|View
+    {
+        $instance = app('view');
+        if (func_num_args() === 0) {
+            return $instance;
+        }
+
+        return $instance->response($view . '.html.twig', $data);
     }
 }
 

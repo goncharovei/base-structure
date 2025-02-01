@@ -12,7 +12,7 @@ final class Kernel implements KernelHttp
 {
     public function __construct(private readonly Application $app)
     {
-        $this->bindTemplateEngine();
+        $this->registerTemplateEngine();
         $this->registerRequest();
         $this->registerRouter();
         $this->registerResponse();
@@ -37,11 +37,11 @@ final class Kernel implements KernelHttp
         return $this;
     }
 
-    private function bindTemplateEngine(): void
+    private function registerTemplateEngine(): void
     {
-        $this->app->bind(\Twig\Environment::class, function (){
-           return new \Twig\Loader\FilesystemLoader($this->app->resourcePath('view'));
-        });
+        $this->app->instance('view', new View(
+            new \Twig\Loader\FilesystemLoader($this->app->resourcePath('view'))
+        ));
     }
 
     private function registerRouter(): void
