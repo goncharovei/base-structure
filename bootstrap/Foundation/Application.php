@@ -274,11 +274,6 @@ class Application extends Container
         return $this->joinPaths($this->basePath('resources'), $path);
     }
 
-    public function commandDefaultPath(): string
-    {
-        return $this->path('Command');
-    }
-
     /**
      * Join the given paths together.
      *

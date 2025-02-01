@@ -4,6 +4,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 $status = (require_once __DIR__.'/bootstrap/app.php')
+    ->addCommandPaths([app()->path('Command')])
     ->launchConsole();
 
 exit($status);

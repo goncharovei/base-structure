@@ -18,7 +18,7 @@ final class Kernel implements KernelConsole
 
     public function __construct(private readonly Application $app)
     {
-        $this->addCommandPaths([$app->commandDefaultPath()]);
+
     }
 
     /**
