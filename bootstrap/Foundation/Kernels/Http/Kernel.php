@@ -3,6 +3,7 @@
 namespace Foundation\Kernels\Http;
 
 use Foundation\Application;
+use Foundation\Kernels\Http\View\Twig\TwigExtension;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Router;
@@ -37,11 +38,20 @@ final class Kernel implements KernelHttp
         return $this;
     }
 
+    public function addTwigExtension($extension): Kernel
+    {
+        view()->addExtension($extension);
+
+        return $this;
+    }
+
     private function registerTemplateEngine(): void
     {
         $this->app->instance('view', new View(
             new \Twig\Loader\FilesystemLoader($this->app->resourcePath('view'))
         ));
+
+        view()->addExtension(new TwigExtension());
     }
 
     private function registerRouter(): void
