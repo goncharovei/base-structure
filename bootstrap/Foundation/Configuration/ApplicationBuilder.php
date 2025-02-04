@@ -6,6 +6,8 @@ use Foundation\Application;
 use Foundation\Configuration\Load\LoadConfig;
 use Foundation\Configuration\Load\LoadEnvironmentVariables;
 use Foundation\Database\QueryBuilder;
+use Foundation\Exception\ExceptionHandler;
+use Foundation\Exception\ExceptionLogger;
 use Foundation\Kernels\Kernel;
 use Foundation\Kernels\Console\Kernel as ConsoleKernel;
 use Foundation\Kernels\Http\Kernel as HttpKernel;
@@ -41,6 +43,15 @@ class ApplicationBuilder
     public function createLogger(): static
     {
         $this->app->instance('log', call_user_func(new Logger()));
+
+        return $this;
+    }
+
+    public function registerExceptionHandler(): static
+    {
+        $this->app->instance(ExceptionHandler::class, call_user_func(new ExceptionHandler(
+            new ExceptionLogger(app('log'))
+        )));
 
         return $this;
     }

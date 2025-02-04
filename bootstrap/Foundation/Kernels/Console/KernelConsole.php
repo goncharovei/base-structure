@@ -2,9 +2,7 @@
 
 namespace Foundation\Kernels\Console;
 
-use Foundation\Kernels\Kernel;
-
-interface KernelConsole extends Kernel
+interface KernelConsole
 {
     public function addCommandPaths(array $paths): KernelConsole;
     public function launchConsole(): int;

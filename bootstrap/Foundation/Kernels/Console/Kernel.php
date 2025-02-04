@@ -3,22 +3,28 @@
 namespace Foundation\Kernels\Console;
 
 use Foundation\Application;
+use Foundation\Exception\ExceptionConsole;
+use Foundation\Exception\ExceptionHandler;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Symfony\Component\Console\Application as ConsoleApplication;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use Foundation\Kernels\Kernel as FoundationKernel;
 
-final class Kernel implements KernelConsole
+final class Kernel extends FoundationKernel implements KernelConsole
 {
     private array $commandPaths = [];
 
-    public function __construct(private readonly Application $app)
+    public function __construct(Application $app)
     {
+        parent::__construct($app);
 
+        $this->setExceptionOutput();
     }
 
     /**
@@ -37,6 +43,17 @@ final class Kernel implements KernelConsole
         $this->commandPaths = array_values(array_unique(array_merge($this->commandPaths, $paths)));
 
         return $this;
+    }
+
+    private function setExceptionOutput(): void
+    {
+        /**
+         * @var ExceptionHandler $handler
+         */
+        $handler = $this->app->make(ExceptionHandler::class);
+        $handler->setOutput(new ExceptionConsole(
+            new ConsoleOutput()
+        ));
     }
 
     /**

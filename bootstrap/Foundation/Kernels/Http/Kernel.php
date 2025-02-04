@@ -3,16 +3,21 @@
 namespace Foundation\Kernels\Http;
 
 use Foundation\Application;
+use Foundation\Exception\ExceptionHandler;
+use Foundation\Exception\ExceptionHttp;
 use Foundation\Kernels\Http\View\Twig\TwigExtension;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use League\Route\Router;
 use Symfony\Component\Finder\Finder;
+use Foundation\Kernels\Kernel as FoundationKernel;
 
-final class Kernel implements KernelHttp
+final class Kernel extends FoundationKernel implements KernelHttp
 {
-    public function __construct(private readonly Application $app)
+    public function __construct(Application $app)
     {
+        parent::__construct($app);
+
         $this->registerTemplateEngine();
         $this->registerRequest();
         $this->registerRouter();
@@ -41,6 +46,20 @@ final class Kernel implements KernelHttp
     public function addTwigExtension($extension): Kernel
     {
         view()->addExtension($extension);
+
+        return $this;
+    }
+
+    public function registerExceptionOutput(string $pathTemplate): Kernel
+    {
+        /**
+         * @var ExceptionHandler $handler
+         */
+        $handler = $this->app->make(ExceptionHandler::class);
+        $handler->setOutput(new ExceptionHttp(
+            view(),
+            $pathTemplate
+        ));
 
         return $this;
     }

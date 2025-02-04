@@ -2,10 +2,9 @@
 
 namespace Foundation\Kernels\Http;
 
-use Foundation\Kernels\Kernel;
-
-interface KernelHttp extends Kernel
+interface KernelHttp
 {
     public function launchWeb(): void;
-    public function loadRoutes(string $path): \Foundation\Kernels\Http\Kernel;
+    public function loadRoutes(string $path): Kernel;
+    public function registerExceptionOutput(string $pathTemplate): Kernel;
 }

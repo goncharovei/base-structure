@@ -4,7 +4,14 @@ namespace Foundation\Kernels;
 
 use Foundation\Application;
 
-interface Kernel
+abstract class Kernel
 {
-    public function __construct(Application $app);
+    public function __construct(protected Application $app)
+    {
+
+    }
+    public function getInstance(): Application
+    {
+        return $this->app;
+    }
 }
