@@ -10,7 +10,7 @@ abstract class Kernel
     {
 
     }
-    public function getInstance(): Application
+    public function getApplication(): Application
     {
         return $this->app;
     }

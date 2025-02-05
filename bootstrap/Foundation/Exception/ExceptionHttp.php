@@ -2,27 +2,35 @@
 
 namespace Foundation\Exception;
 
+use Foundation\Exception\Http\ExceptionFieldFactory;
+use Foundation\Kernels\Http\Kernel;
 use Foundation\Kernels\Http\View;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-final class ExceptionHttp implements ExceptionOutput
+final readonly class ExceptionHttp implements ExceptionOutput
 {
     public function __construct(
-        private View $view, private string $pathTemplate)
+        private Kernel $kernel, private View $view, private string $pathTemplate)
     {
 
     }
 
+    /**
+     * @throws SyntaxError
+     * @throws BindingResolutionException
+     * @throws RuntimeError
+     * @throws LoaderError
+     */
     public function show(\Throwable $exception): void
     {
-        $statusCode = $exception->getCode() ?: 500;
-        $errorText = $exception->getMessage() . ' ' . $exception->getFile() . '(' . $exception->getLine() . ').';
-        $response = $this->view->response($this->pathTemplate, [
-            'statusCode' => $statusCode,
-            'errorText' => $errorText,
-            'trace' => nl2br($exception->getTraceAsString())
-        ]);
-        $response->withStatus($statusCode);
+        $exceptionFields = (new ExceptionFieldFactory($this->kernel))->create($exception)->getFields();
+
+        $response = $this->view->response($this->pathTemplate, $exceptionFields->toArray());
+        $response->withStatus($exceptionFields->code);
 
         (new SapiEmitter())->emit($response);
     }

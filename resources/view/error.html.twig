@@ -3,7 +3,7 @@
 {% block title %}Error{% endblock %}
 
 {% block body %}
-    <h1>Error {{ statusCode }}</h1>
-    <h5>{{ errorText }}</h5>
+    <h1>Error {{ code }}</h1>
+    <h5>{{ message }}</h5>
     <p>{{ trace|raw }}</p>
 {% endblock %}
