@@ -24,7 +24,7 @@ class ExceptionLogger
     private function getErrorText(\Throwable $e): string
     {
         return $e->getMessage() . PHP_EOL .
-            $e->getFile() . '(' . $e->getLine() . ').' . PHP_EOL .
-            'Code: ' . $e->getCode() . '.' . PHP_EOL;
+            $e->getFile() . '(' . $e->getLine() . ').' . ' Code: ' . $e->getCode() . '.' . PHP_EOL .
+            $e->getTraceAsString() . PHP_EOL;
     }
 }

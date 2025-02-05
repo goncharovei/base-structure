@@ -40,7 +40,8 @@ class Logger
     {
         return new LineFormatter(
             dateFormat: 'Y-m-d H:i:s, e',
-            ignoreEmptyContextAndExtra: true
+            ignoreEmptyContextAndExtra: true,
+            allowInlineLineBreaks: true
         );
     }
 
