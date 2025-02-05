@@ -57,7 +57,7 @@ final class Kernel extends FoundationKernel implements KernelHttp
          */
         $handler = $this->app->make(ExceptionHandler::class);
         $handler->setOutput(new ExceptionHttp(
-            $this->app,
+            $this,
             view(),
             $pathTemplate
         ));

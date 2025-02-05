@@ -30,7 +30,7 @@ final readonly class ExceptionHttp implements ExceptionOutput
         $exceptionFields = (new ExceptionFieldFactory($this->kernel))->create($exception)->getFields();
 
         $response = $this->view->response($this->pathTemplate, $exceptionFields->toArray());
-        $response->withStatus($exceptionFields->code);
+        $response = $response->withStatus($exceptionFields->code);
 
         (new SapiEmitter())->emit($response);
     }
