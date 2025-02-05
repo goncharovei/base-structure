@@ -1,5 +1,9 @@
 {% extends 'layout/main.html.twig' %}
 
+{% block title %}Error{% endblock %}
+
 {% block body %}
-    <p>Error</p>
+    <h1>Error {{ statusCode }}</h1>
+    <h5>{{ errorText }}</h5>
+    <p>{{ trace|raw }}</p>
 {% endblock %}
