@@ -7,7 +7,7 @@ use Foundation\Exception\ExceptionHandler;
 use Foundation\Exception\ExceptionHttp;
 use Foundation\Kernels\Http\View\Twig\TwigExtension;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use HttpSoft\Emitter\SapiEmitter;
 use League\Route\Router;
 use Symfony\Component\Finder\Finder;
 use Foundation\Kernels\Kernel as FoundationKernel;

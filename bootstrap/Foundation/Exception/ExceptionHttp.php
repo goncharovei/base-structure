@@ -6,7 +6,7 @@ use Foundation\Exception\Http\ExceptionFieldFactory;
 use Foundation\Kernels\Http\Kernel;
 use Foundation\Kernels\Http\View;
 use Illuminate\Contracts\Container\BindingResolutionException;
-use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use HttpSoft\Emitter\SapiEmitter;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
